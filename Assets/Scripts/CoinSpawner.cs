@@ -9,6 +9,7 @@ public class CoinSpawner : MonoBehaviour
     public float spawnX = 15f;
     public float coinY = -1.5f;     
     public int coinsPerGroup = 2;   
+    public float checkRadius = 1.5f;
 
     private Transform player;
     private float timer;
@@ -38,12 +39,21 @@ public class CoinSpawner : MonoBehaviour
     {
         for (int i = 0; i < coinsPerGroup; i++)
         {
-            GameObject coin = coinPool.GetObject();
-            coin.transform.position = new Vector3(
+            Vector3 spawnPos = new Vector3(
                 player.position.x + spawnX + (i * 1.2f),
                 coinY,
                 0
             );
+
+            Collider2D hit = Physics2D.OverlapCircle(spawnPos, checkRadius);
+
+            if (hit != null && hit.CompareTag("Obstacle"))
+            {
+                continue; 
+            }
+
+            GameObject coin = coinPool.GetObject();
+            coin.transform.position = spawnPos;
         }
     }
 }
