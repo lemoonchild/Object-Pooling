@@ -10,11 +10,17 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 12f;
     private bool isGrounded = false;
 
+    [Header("Sounds")] 
+    public AudioClip jumpSound; 
+    public AudioClip coinSound; 
+    private AudioSource audioSource; 
+
     private Rigidbody2D rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -28,9 +34,10 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
+            audioSource.PlayOneShot(jumpSound);
         }
     }
-    
+
     void OnCollisionEnter2D(Collision2D col)
     {
         // Detecta si tocó el suelo
@@ -51,8 +58,9 @@ public class PlayerController : MonoBehaviour
         // Recoge monedas
         if (col.gameObject.CompareTag("Coin"))
         {
-            GameManager.instance.AddScore(10);
+            GameManager.instance.AddScore(1);
             col.gameObject.SetActive(false); 
+            audioSource.PlayOneShot(coinSound);
         }
     }
 }

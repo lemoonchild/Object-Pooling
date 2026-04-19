@@ -8,7 +8,7 @@ public class CoinSpawner : MonoBehaviour
     public float maxSpawnTime = 4f;
     public float spawnX = 15f;
     public float coinY = -1.5f;     
-    public int coinsPerGroup = 3;   
+    public int coinsPerGroup = 2;   
 
     private Transform player;
     private float timer;
