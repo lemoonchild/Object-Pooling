@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem; 
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,17 +21,16 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.instance.isGameOver) return;
 
-        // Corre hacia la derecha
         transform.Translate(Vector2.right * runSpeed * Time.deltaTime);
 
-        // Salto 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
+        if ((Keyboard.current.spaceKey.wasPressedThisFrame || 
+            Keyboard.current.upArrowKey.wasPressedThisFrame) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
         }
     }
-
+    
     void OnCollisionEnter2D(Collision2D col)
     {
         // Detecta si tocó el suelo
